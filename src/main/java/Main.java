@@ -26,42 +26,56 @@ public class Main {
         webDriver.manage().window().maximize();
         System.out.println("----------WINDOW MAXIMIZED----------");
         String urlPath = "https://www.vodacom.co.za/";
-        System.out.println("----------LOADING SITE: "+urlPath);
+        System.out.println("----------OPENING SITE: "+urlPath);
         webDriver.get(urlPath);
+        System.out.println("----------SITE LOADED: "+urlPath);
         String clicklink= Keys.chord(Keys.CONTROL,Keys.ENTER);
-        webDriver.manage().timeouts().implicitlyWait(2000, TimeUnit.SECONDS);
-        System.out.println("----------WAITING TO LOAD: "+urlPath);
+        webDriver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        System.out.println("----------WAITING TO PAGE ON OF SITE: "+urlPath);
 
 
         //Creating object of an Actions class
-        Actions action = new Actions(webDriver);
+        Actions actions = new Actions(webDriver);
+
+        //Checking if Cookie prompt pops out
+        List<WebElement> l=webDriver.findElements(By.xpath("//*[text()='Cookie Policy']"));
+        if(l.size()== 0){
+            // empty list if no matching element
+            System.out.println("----------Element not present, appearing "+l.size()+ " time");
+        } else {
+            System.out.println("----------Element present, appearing "+l.size()+ " time");
+            webDriver.findElement(By.id("onetrust-accept-btn-handler")).sendKeys(clicklink);
+        }
 
         //Retrieve WebElement 'Shop' to perform mouse hover
-        WebElement menuOption = webDriver.findElement(By.xpath(".//h4[contains(text(),'Shop')]"));
+        WebElement menuShop = webDriver.findElement(By.xpath(".//h4[contains(text(),'Shop')]"));
+        WebElement menuShopOED = webDriver.findElement(By.partialLinkText("Online Exclusive Deals"));
 
         //Mouse hover menuOption 'Music'
+        actions.moveToElement(menuShop).perform();
+        System.out.println("----------Done Mouse hover on 'Shop' from Menu");
+        actions.moveToElement(menuShopOED).perform();
+        System.out.println("----------Done Mouse hover on 'Online Exclusive Deals' from Menu");
+        menuShopOED.click();
+        //actions.click(menuShopOED).perform();
+        System.out.println("----------Done Click on 'Online Exclusive Deals' from Menu");
+        System.out.println("----------title of page is: " + webDriver.getTitle());
+        //String
 
-        action.moveToElement(menuOption).perform();
+        //Online Exclusive Deals
 
         WebElement ele = webDriver.findElement(By.xpath("<xpath>"));
 
 
 
-        List<WebElement> l=webDriver.findElements(By.xpath("//*[text()='Cookie Policy']"));
-        if(l.size()== 0){
-            // empty list if no matching element
-            System.out.println("Element not present, appearing "+l.size()+ " time");
-        } else {
-            System.out.println("Element present, appearing "+l.size()+ " time");
-            webDriver.findElement(By.id("onetrust-accept-btn-handler")).sendKeys(clicklink);//click myaccount
-        }
+
 
 
 
 
 
         //Performing the mouse hover action on the target element.
-        action.moveToElement(ele).perform();
+       // action.moveToElement(ele).perform();
 
 
         webDriver.findElement(By.xpath("//h4[contains(text(),'Shop'")).click();
