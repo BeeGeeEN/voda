@@ -23,6 +23,8 @@ public class Main {
     public String urlPath = "https://www.vodacom.co.za/";
     public String TITLE_XPATH = "//a[@href='/']";
     WebDriver webDriver;
+    public String seeMoreLink;
+    public String DealDetailsPage;
 
 
 
@@ -90,11 +92,29 @@ public class Main {
        // WebElement dealSeeMore = webDriver.findElement(By.xpath("//span[text()='Samsung Galaxy Z FLIP4 256GB 5G + Samsung…']"));
         webDriver.manage().timeouts().implicitlyWait(13, TimeUnit.SECONDS);
 
-        webDriver.findElement(By.xpath(".//a[@href ='#https://www.vodacom.co.za/shopping/deal-details-page/DV3A21DIVJ?contractSkus=DV3A21DHWD&contractSkus=DV3A21DIVJ']")).click();
+        WebElement dealSeeMore =  webDriver.findElement(By.xpath("//a[@href='/shopping/deal-details-page/DV3A21DIVJ?contractSkus=DV3A21DHWD&contractSkus=DV3A21DIVJ']"));
+        System.out.println("----------OPENING: "+dealSeeMore);
+        dealSeeMore.click();
+
+
+        //webDriver.findElement(By.xpath("//a[@href='https://www.vodacom.co.za/shopping/deal-details-page/DV3A21DIVJ?contractSkus=DV3A21DHWD&contractSkus=DV3A21DIVJ']")).click();
+
+       // webDriver.findElement(By.xpath("//a[@href ='https://www.vodacom.co.za/shopping/deal-details-page/DV3A21DIVJ?contractSkus=DV3A21DHWD&contractSkus=DV3A21DIVJ']")).click();
        // WebElement dealSeeMore =  webDriver.findElement(By.xpath("//div[@class='DealCard_image-text-content__13qd9']/span[@class='title'] and contains(text(),'Z FLIP4 256GB 5G')"));
       //  By by = By.xpath("//span[text()='Settings']");
        // actions.click(dealSeeMore).perform();
         System.out.println("----------Selected More for ----");
+
+
+        List<WebElement> detailTilte=webDriver.findElements(By.xpath("//h1[contains(text(),'Deal details')]"));
+        if(detailTilte.size()== 0){
+            System.out.println("---------Title not present:  FAIL");
+        } else {
+            System.out.println("---------Title present:  FAIL");
+            webDriver.findElement(By.id("onetrust-accept-btn-handler")).sendKeys(clicklink);
+        }
+
+
 
         //Samsung Galaxy Z FLIP4 256GB 5G + Samsung…
 
@@ -104,7 +124,6 @@ public class Main {
        // action.moveToElement(ele).perform();
 
 
-        webDriver.findElement(By.xpath("//h4[contains(text(),'Shop'")).click();
         //Actions a = new Actions(webDriver);
        // a.moveToElement(webDriver.findElement(By.xpath("//h2[contains(text(),'Shop')]"));
 
